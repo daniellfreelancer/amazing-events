@@ -82,7 +82,7 @@ async function amazingEventsWeb(){
                               <div class="profile-overview pb-4">
                                   <h4>Price: $ ${e.price}</h4>
                              </div>
-                                  <a class="text-decoration-none btn-see" href="./pages/details.html?id=${e._id}">See-more...</a>
+                                  <a class="text-decoration-none btn-see" href="./details.html?id=${e._id}">See-more...</a>
                           </div>
                      </div>
                  </div>`
