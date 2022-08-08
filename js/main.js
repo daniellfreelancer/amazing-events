@@ -11,27 +11,30 @@ let dataApi;
 fetch('https://amazing-events.herokuapp.com/api/events')
     .then(response => response.json())
     .then(json => {
-        
-        dataApi =  json.events
+        try {
+            dataApi =  json.events
 
-        {titleSite === "Amazing Events" ? createCards(dataApi, "card-container") : loading }
-        
-        // listener del los checkbox
-        checkArea.addEventListener("change", () => {
-            let filteredCat = amazingChecks(dataApi)
-            let filteredCards = filterCardsBySearch(filteredCat,inputSearch.value)
-            createCards(filteredCards,"card-container")
-        })
+            {titleSite === "Amazing Events" ? createCards(dataApi, "card-container") : loading }
+            
+            // listener del los checkbox
+            checkArea.addEventListener("change", () => {
+                let filteredCat = amazingChecks(dataApi)
+                let filteredCards = filterCardsBySearch(filteredCat,inputSearch.value)
+                createCards(filteredCards,"card-container")
+            })
+    
+            //listener del inputSearch
+            searchButton.addEventListener("click", (e)=>{
+                e.preventDefault()
+                let filteredCards = filterCardsBySearch(dataApi,inputSearch.value)
+                let filteredCat = amazingChecks(filteredCards)
+                createCards(filteredCat,"card-container")
+            })
+        } catch (error) {
+            console.error(error)
+        }
 
-        //listener del inputSearch
-        searchButton.addEventListener("click", (e)=>{
-            e.preventDefault()
-            let filteredCards = filterCardsBySearch(dataApi,inputSearch.value)
-            let filteredCat = amazingChecks(filteredCards)
-            createCards(filteredCat,"card-container")
-        })
-    .catch((error) =>{
-        console.error(error)
+
     })
 
 // Crear categorias
