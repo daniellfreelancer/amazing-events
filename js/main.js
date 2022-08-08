@@ -2,10 +2,39 @@ const amazingEvents = data[0].events;
 const titleSite = document.title;
 const loading = "Cargando...";
 const containerCategory = "category-container";
-const searchButton = document.getElementById("search")
-const inputSearch = document.getElementById("form-search")
-console.log(inputSearch.value)
-const checkArea = document.getElementById("category-container")
+const searchButton = document.getElementById("search");
+const inputSearch = document.getElementById("form-search");
+const checkArea = document.getElementById("category-container");
+
+let dataApi;
+
+fetch('https://amazing-events.herokuapp.com/api/events')
+    .then(response => response.json())
+    .then(json => {
+        try {
+            dataApi =  json.events
+
+            {titleSite === "Amazing Events" ? createCards(dataApi, "card-container") : loading }
+            
+            // listener del los checkbox
+            checkArea.addEventListener("change", () => {
+                let filteredCat = amazingChecks(dataApi)
+                let filteredCards = filterCardsBySearch(filteredCat,inputSearch.value)
+                createCards(filteredCards,"card-container")
+            })
+    
+            //listener del inputSearch
+            searchButton.addEventListener("click", (e)=>{
+                e.preventDefault()
+                let filteredCards = filterCardsBySearch(dataApi,inputSearch.value)
+                let filteredCat = amazingChecks(filteredCards)
+                createCards(filteredCat,"card-container")
+            })
+        } catch (error) {
+            console.error(error)
+        }
+
+    })
 
 
 // Crear categorias
@@ -64,28 +93,18 @@ function createCards(amazing, container) {
 
 creatCategory(filtrarCategory(), containerCategory);
 
-{titleSite === "Amazing Events" ? createCards(amazingEvents, "card-container") : loading }
 
-// listener del los checkbox
-checkArea.addEventListener("change", () => {
-    console.log("Hola soy un check")
-        // empleado 1
-        let filteredCat = amazingChecks(amazingEvents)
-        // empleado 2
-        let filteredCards = filterCardsBySearch(filteredCat,inputSearch.value)
-        // paso final
-        createCards(filteredCards,"card-container")
-})
+
 
 //listener del inputSearch
-searchButton.addEventListener("click", (e)=>{
-    e.preventDefault()
+// searchButton.addEventListener("click", (e)=>{
+//     e.preventDefault()
 
-    let filteredCards = filterCardsBySearch(amazingEvents,inputSearch.value)
-    let filteredCat = amazingChecks(filteredCards)
-    createCards(filteredCat,"card-container")
+//     let filteredCards = filterCardsBySearch(amazingEvents,inputSearch.value)
+//     let filteredCat = amazingChecks(filteredCards)
+//     createCards(filteredCat,"card-container")
     
-})
+// })
 
 function amazingChecks(amazing){
     //array de categorias de checkbox
@@ -139,17 +158,3 @@ function noFound(textoSearch){
     padre.appendChild(div)
     setTimeout(()=>{div.remove(), location.reload() },2000)
 }
-
-//------------------------------ ✖️ ✔️
-//ORDEN 
-// funcion que utilice los filtros de category y input text 
-// funcion que utilice los filtros de input text y category 
-// funcion que filtre categorias ✔️
-// funcion que filtre input text 
-// funcion que pinte cards ✔️
-// funcion que pinte categorias ✔️
-// funcion que pinte input text 
-//-------------------------------
-// capturar los contenedores ✔️
-// capturar las categorias 
-// capturar el input text 
