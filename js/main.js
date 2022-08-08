@@ -10,8 +10,8 @@ let dataApi;
 
 fetch('https://amazing-events.herokuapp.com/api/events')
     .then(response => response.json())
-    .then(json => {
-        try {
+    .then((json => {
+ 
             dataApi =  json.events
 
             {titleSite === "Amazing Events" ? createCards(dataApi, "card-container") : loading }
@@ -30,11 +30,11 @@ fetch('https://amazing-events.herokuapp.com/api/events')
                 let filteredCat = amazingChecks(filteredCards)
                 createCards(filteredCat,"card-container")
             })
-        } catch (error) {
-            console.error(error)
-        }
 
 
+
+    })).catch((error) =>{
+        console.error( "Se rompio la API: " + error)
     })
 
 // Crear categorias
